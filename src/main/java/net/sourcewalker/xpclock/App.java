@@ -3,8 +3,12 @@ package net.sourcewalker.xpclock;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  * Hello world!
@@ -18,7 +22,16 @@ public class App {
 
         Container contentPane = mainFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(new XpClock(), BorderLayout.CENTER);
+        final XpClock clock = new XpClock();
+        contentPane.add(clock, BorderLayout.CENTER);
+        Timer clockTimer = new Timer(500, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                clock.setTime(new Date());
+            }
+        });
+        clockTimer.start();
 
         mainFrame.setVisible(true);
     }

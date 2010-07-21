@@ -43,11 +43,15 @@ public class XpClock extends JPanel {
     private double secondFraction;
 
     public XpClock() {
+        this(Calendar.getInstance());
+    }
+
+    public XpClock(Calendar calendar) {
         super(true);
         setBackground(Color.BLACK);
         setForeground(Color.WHITE);
 
-        setTime(Calendar.getInstance());
+        setTime(calendar);
     }
 
     public void setTime(Calendar time) {
@@ -59,15 +63,15 @@ public class XpClock extends JPanel {
         repaint();
     }
 
-    private double getHourFraction() {
+    public double getHourFraction() {
         return hourFraction;
     }
 
-    private double getMinuteFraction() {
+    public double getMinuteFraction() {
         return minuteFraction;
     }
 
-    private double getSecondFraction() {
+    public double getSecondFraction() {
         return secondFraction;
     }
 

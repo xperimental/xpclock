@@ -11,9 +11,7 @@ import javax.swing.JPanel;
 public class XpClock extends JPanel {
 
     private static final long serialVersionUID = -6314735624389927332L;
-    private static final double HOUR_CIRCLE = Math.PI * 2;
-    private static final double MINUTE_ARC = HOUR_CIRCLE / 60;
-    private static final double SECOND_ARC = MINUTE_ARC / 60;
+    private static final double CIRCLE = Math.PI * 2;
     private static final String[] HOURS;
     private static final String[] MINUTES;
     private static final String[] SECONDS;
@@ -82,12 +80,9 @@ public class XpClock extends JPanel {
         double size = Math.min(getWidth(), getHeight());
         double centerX = size / 2;
         double centerY = size / 2;
-        double hourAngle = getHourFraction() * HOUR_CIRCLE
-                + getMinuteFraction() * MINUTE_ARC + getSecondFraction()
-                * SECOND_ARC;
-        double minuteAngle = hourAngle + getMinuteFraction() * HOUR_CIRCLE
-                + getSecondFraction() * SECOND_ARC;
-        double secondAngle = minuteAngle + getSecondFraction() * HOUR_CIRCLE;
+        double hourAngle = getHourFraction() * CIRCLE;
+        double minuteAngle = hourAngle + getMinuteFraction() * CIRCLE;
+        double secondAngle = minuteAngle + getSecondFraction() * CIRCLE;
 
         g.setColor(getForeground());
         drawCenterDot(g, centerX, centerY);
@@ -107,7 +102,7 @@ public class XpClock extends JPanel {
             double startAngle, double size, String[] labels) {
         for (int i = 0; i < labels.length; i++) {
             double frac = (double) i / labels.length;
-            double angle = startAngle + frac * HOUR_CIRCLE;
+            double angle = startAngle + frac * CIRCLE;
             double startX = centerX + Math.sin(angle) * centerX * size;
             double startY = centerY - Math.cos(angle) * centerY * size;
             double x = centerX + Math.sin(angle) * centerX * size

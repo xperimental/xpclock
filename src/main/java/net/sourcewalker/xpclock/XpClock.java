@@ -1,7 +1,9 @@
 package net.sourcewalker.xpclock;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.Date;
 
 import javax.swing.JPanel;
@@ -86,10 +88,17 @@ public class XpClock extends JPanel {
         for (int i = 0; i < labels.length; i++) {
             double frac = (double) i / labels.length;
             double angle = startAngle + frac * HOUR_CIRCLE;
-            double x = centerX + Math.sin(angle) * centerX * size;
-            double y = centerY - Math.cos(angle) * centerY * size;
-            g.drawString(labels[i], (int) x, (int) y);
+            double x = centerX + Math.sin(angle) * centerX * (size + 0.05);
+            double y = centerY - Math.cos(angle) * centerY * (size + 0.05);
+            drawCentered(g, labels[i], (int) x, (int) y);
         }
+    }
+
+    private void drawCentered(Graphics g, String text, int x, int y) {
+        FontMetrics metrics = g.getFontMetrics();
+        Rectangle2D bounds = metrics.getStringBounds(text, g);
+        g.drawString(text, (int) (x - bounds.getWidth() / 2),
+                (int) (y + metrics.getDescent()));
     }
 
     private void drawCenterDot(Graphics g, double centerX, double centerY) {

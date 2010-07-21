@@ -50,10 +50,10 @@ public class XpClock extends JPanel {
     }
 
     public void setTime(Calendar time) {
-        hourFraction = (double) time.get(Calendar.HOUR_OF_DAY) / 24;
-        minuteFraction = (double) time.get(Calendar.MINUTE) / 60;
         double millis = (double) time.get(Calendar.MILLISECOND) / 1000;
         secondFraction = ((double) time.get(Calendar.SECOND) + millis) / 60;
+        minuteFraction = ((double) time.get(Calendar.MINUTE) + secondFraction) / 60;
+        hourFraction = ((double) time.get(Calendar.HOUR_OF_DAY) + minuteFraction) / 24;
 
         repaint();
     }

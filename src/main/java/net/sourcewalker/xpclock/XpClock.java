@@ -21,6 +21,7 @@ public class XpClock extends JPanel {
     private static final double SECOND_RING = 0.2;
     private static final double MINUTE_RING = 0.5;
     private static final double HOUR_RING = 0.8;
+    private static final double LABEL_PAD = 15;
 
     static {
         HOURS = new String[24];
@@ -103,15 +104,27 @@ public class XpClock extends JPanel {
         for (int i = 0; i < labels.length; i++) {
             double frac = (double) i / labels.length;
             double angle = startAngle + frac * HOUR_CIRCLE;
-            double x = centerX + Math.sin(angle) * centerX * (size + 0.05);
-            double y = centerY - Math.cos(angle) * centerY * (size + 0.05);
-            drawCentered(g, labels[i], (int) x, (int) y);
+            double startX = centerX + Math.sin(angle) * centerX * size;
+            double startY = centerY - Math.cos(angle) * centerY * size;
+            double x = centerX + Math.sin(angle) * centerX * size
+                    + Math.sin(angle) * LABEL_PAD;
+            double y = centerY - Math.cos(angle) * centerY * size
+                    - Math.cos(angle) * LABEL_PAD;
+            drawCentered(g, labels[i], (int) startX, (int) startY, (int) x,
+                    (int) y);
         }
     }
 
-    private void drawCentered(Graphics g, String text, int x, int y) {
+    private void drawCentered(Graphics g, String text, int startX, int startY,
+            int x, int y) {
         FontMetrics metrics = g.getFontMetrics();
         Rectangle2D bounds = metrics.getStringBounds(text, g);
+        g.drawLine(startX, startY, x, y);
+        g.setColor(getBackground());
+        g.fillRect((int) (x - bounds.getWidth() / 2),
+                (int) (y - bounds.getHeight() / 2), (int) bounds.getWidth(),
+                (int) bounds.getHeight());
+        g.setColor(getForeground());
         g.drawString(text, (int) (x - bounds.getWidth() / 2),
                 (int) (y + metrics.getDescent()));
     }

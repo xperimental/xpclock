@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.swing.JPanel;
 
@@ -37,23 +37,37 @@ public class XpClock extends JPanel {
         }
     }
 
-    private Date time;
+    private double hourFraction;
+    private double minuteFraction;
+    private double secondFraction;
 
     public XpClock() {
         super(true);
         setBackground(Color.BLACK);
         setForeground(Color.WHITE);
 
-        time = new Date();
+        setTime(Calendar.getInstance());
     }
 
-    public Date getTime() {
-        return time;
-    }
+    public void setTime(Calendar time) {
+        hourFraction = (double) time.get(Calendar.HOUR_OF_DAY) / 24;
+        minuteFraction = (double) time.get(Calendar.MINUTE) / 60;
+        double millis = (double) time.get(Calendar.MILLISECOND) / 1000;
+        secondFraction = ((double) time.get(Calendar.SECOND) + millis) / 60;
 
-    public void setTime(Date time) {
-        this.time = time;
         repaint();
+    }
+
+    private double getHourFraction() {
+        return hourFraction;
+    }
+
+    private double getMinuteFraction() {
+        return minuteFraction;
+    }
+
+    private double getSecondFraction() {
+        return secondFraction;
     }
 
     @Override
@@ -127,21 +141,6 @@ public class XpClock extends JPanel {
         drawHand(g, centerX, centerY, HOUR_RING, MINUTE_RING, hourAngle);
         drawHand(g, centerX, centerY, SECOND_RING, MINUTE_RING, minuteAngle);
         drawHand(g, centerX, centerY, 0, SECOND_RING, secondAngle);
-    }
-
-    @SuppressWarnings("deprecation")
-    private double getHourFraction() {
-        return (double) time.getHours() / 24;
-    }
-
-    @SuppressWarnings("deprecation")
-    private double getMinuteFraction() {
-        return (double) time.getMinutes() / 60;
-    }
-
-    @SuppressWarnings("deprecation")
-    private double getSecondFraction() {
-        return ((double) time.getSeconds()) / 60;
     }
 
     private void drawHand(Graphics g, double centerX, double centerY,

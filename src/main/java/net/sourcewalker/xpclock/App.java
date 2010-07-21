@@ -5,7 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -24,11 +24,11 @@ public class App {
         contentPane.setLayout(new BorderLayout());
         final XpClock clock = new XpClock();
         contentPane.add(clock, BorderLayout.CENTER);
-        Timer clockTimer = new Timer(500, new ActionListener() {
+        Timer clockTimer = new Timer(25, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                clock.setTime(new Date());
+                clock.setTime(Calendar.getInstance());
             }
         });
         clockTimer.start();

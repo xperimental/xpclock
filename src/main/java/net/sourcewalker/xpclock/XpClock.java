@@ -1,8 +1,11 @@
 package net.sourcewalker.xpclock;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.util.Calendar;
 
@@ -39,6 +42,7 @@ public class XpClock extends JPanel {
     private double hourFraction;
     private double minuteFraction;
     private double secondFraction;
+    private double ringWidth = 2;
 
     public XpClock() {
         this(Calendar.getInstance());
@@ -71,6 +75,15 @@ public class XpClock extends JPanel {
 
     public double getSecondFraction() {
         return secondFraction;
+    }
+
+    public double getRingWidth() {
+        return ringWidth;
+    }
+
+    public void setRingWidth(double value) {
+        ringWidth = value;
+        repaint();
     }
 
     @Override
@@ -135,9 +148,13 @@ public class XpClock extends JPanel {
     }
 
     private void drawRings(Graphics g, double centerX, double centerY) {
+        Graphics2D g2 = (Graphics2D) g;
+        Stroke stroke = g2.getStroke();
+        g2.setStroke(new BasicStroke((float) ringWidth));
         drawRing(g, centerX, centerY, SECOND_RING);
         drawRing(g, centerX, centerY, MINUTE_RING);
         drawRing(g, centerX, centerY, HOUR_RING);
+        g2.setStroke(stroke);
     }
 
     private void drawRing(Graphics g, double centerX, double centerY,

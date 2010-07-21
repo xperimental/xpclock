@@ -74,8 +74,9 @@ public class XpClock extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
 
-        double centerX = getWidth() / 2;
-        double centerY = getHeight() / 2;
+        double size = Math.min(getWidth(), getHeight());
+        double centerX = size / 2;
+        double centerY = size / 2;
         double hourAngle = getHourFraction() * HOUR_CIRCLE
                 + getMinuteFraction() * MINUTE_ARC + getSecondFraction()
                 * SECOND_ARC;
